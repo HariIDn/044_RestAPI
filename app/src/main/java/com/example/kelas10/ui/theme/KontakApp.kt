@@ -4,8 +4,12 @@ import android.os.Build
 import androidx.annotation.RequiresExtension
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -32,7 +36,7 @@ fun KontakApp(
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = { TopAppBarKontak(title = "Judul") }
+        topBar = { TopAppBarKontak(title = stringResource(id = R.string.app_name), canNavigateBack = true) }
     ) {
         Surface(
             modifier = Modifier
@@ -54,7 +58,22 @@ fun KontakApp(
 @Composable
 fun TopAppBarKontak(
     title: String,
-
+    canNavigateBack: Boolean,
+    modifier: Modifier = Modifier,
+    scrollBehavior: TopAppBarScrollBehavior? = null,
+    navigateUp: () -> Unit = {}
 ){
-
+    CenterAlignedTopAppBar(title = { Text(title)},
+        modifier = modifier,
+        scrollBehavior = scrollBehavior,
+        navigationIcon = {
+            if (canNavigateBack){
+                IconButton(onClick = navigateUp) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "")
+                }
+            }
+        }
+    )
 }
