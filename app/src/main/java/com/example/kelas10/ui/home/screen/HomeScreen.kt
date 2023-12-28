@@ -33,7 +33,7 @@ import com.example.kelas10.model.Kontak
 import com.example.kelas10.ui.home.viewmodel.KontakUIState
 
 @Composable
-fun HomeScreen(
+fun HomeStatus(
     kontakUIState: KontakUIState,
     retryAction: () -> Unit,
     modifier: Modifier = Modifier,
