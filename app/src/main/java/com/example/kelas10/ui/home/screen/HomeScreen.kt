@@ -50,7 +50,52 @@ object DestinasiHome: DestinasiNavigasi{
     override val titleRes = "Kontak"
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+@Composable
+fun HomeScreen(
+    navigateToItemEntry: () -> Unit,
+    modifier: Modifier = Modifier,
+    onDetailClick: (Int) -> Unit = {},
+    viewModel: HomeViewModel = viewModel(factory = PenyediaViewModel.Factory)
+){
+  val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    Scaffold(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopAppBarKontak(
+                title = DestinasiHome.titleRes,
+                canNavigateBack = false,
+                scrollBehavior = scrollBehavior)
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = navigateToItemEntry,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.padding(18.dp)
+            ) {
+               Icon(
+                   imageVector = Icons.Default.Add,
+                   contentDescription = "Add Kontak")
+            }
+        }
+    ) {innerPadding ->
 
+        HomeStatus(
+            kontakUIState = viewModel.kontakUIState,
+            retryAction = {
+                          viewModel.getKontak()
+            },
+            onDetailClick = onDetailClick,
+            modifier = Modifier.padding(innerPadding),
+            onDeleteClick = {
+                viewModel.deleteKontak(it.id)
+                viewModel.getKontak()
+            }
+        )
+
+    }
+}
 
 @Composable
 fun HomeStatus(
